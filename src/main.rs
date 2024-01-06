@@ -2,8 +2,8 @@ use std::fmt::Write;
 use std::ops::Deref;
 
 use nu_plugin::{EvaluatedCall, LabeledError, MsgPackSerializer, Plugin};
-use nu_protocol::{PluginSignature, Record, ShellError, Span, SyntaxShape, Type, Value};
-use version::{VersionReqValue, VersionValue};
+use nu_protocol::{PluginSignature, Record, ShellError, Span, Spanned, SyntaxShape, Type, Value};
+use version::{Level, VersionReqValue, VersionValue};
 
 mod version;
 
@@ -73,10 +73,18 @@ impl SemverPlugin {
         })
     }
 
-    pub fn bump_major(&self, _call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
+    pub fn bump(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
         let mut version: VersionValue = input.try_into()?;
+        let level: Spanned<String> = call.req(0)?;
+        let level = level.item.parse::<Level>().map_err(|e| LabeledError {
+            msg: "Valid levels are: major, minor, patch, alpha, beta, rc".to_owned(),
+            label: e.to_string(),
+            span: Some(level.span),
+        })?;
 
-        version.bump_major();
+        version
+            .bump(level)
+            .map_err(|e| e.into_labeled_error(version.span()))?;
 
         Ok(version.into_value())
     }
@@ -112,7 +120,8 @@ impl Plugin for SemverPlugin {
     fn signature(&self) -> Vec<nu_protocol::PluginSignature> {
         vec![
             PluginSignature::build("semver").usage("Show all the semver commands"),
-            PluginSignature::build("semver to-record").input_output_type(
+            PluginSignature::build("semver to-record")
+            .input_output_type(
                 Type::String,
                 Type::Record(vec![
                     ("major".to_string(), Type::Int),
@@ -122,7 +131,8 @@ impl Plugin for SemverPlugin {
                     ("build".to_string(), Type::String),
                 ]),
             ),
-            PluginSignature::build("semver from-record").input_output_type(
+            PluginSignature::build("semver from-record")
+            .input_output_type(
                 Type::Record(vec![
                     ("major".to_string(), Type::Int),
                     ("minor".to_string(), Type::Int),
@@ -132,9 +142,10 @@ impl Plugin for SemverPlugin {
                 ]),
                 Type::String,
             ),
-            PluginSignature::build("semver bump-major")
-                .usage("Bump to the next major version")
+            PluginSignature::build("semver bump")
+                .usage("Bump to the version to the next level")
                 .switch("ignore-errors", "If the input is not a valid semver version, return the original string unchanged without raising an error", Some('i'))
+                .required("level", SyntaxShape::String, "The version level to bump. Valid values are: major, minor, patch, alpha, beta, rc.")
                 .input_output_type(Type::String, Type::String),
             PluginSignature::build("semver sort")
                 .usage("Sort a list of versions using semver ordering.")
@@ -159,7 +170,7 @@ impl Plugin for SemverPlugin {
             "semver" => self.usage(call),
             "semver to-record" => self.to_record(call, input),
             "semver from-record" => self.from_record(call, input),
-            "semver bump-major" => self.bump_major(call, input),
+            "semver bump" => self.bump(call, input),
             "semver sort" => self.sort(call, input),
             "semver match-req" => self.match_req(call, input),
             _ => Err(LabeledError {

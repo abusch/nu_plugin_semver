@@ -10,4 +10,6 @@ nu-plugin = "0.88.1"
 nu-protocol = "0.88.1"
 semver = { version = "1.0.20", features = ["serde"] }
 serde = "1"
+strum = { version = "0.25", features = ["derive"] }
+thiserror = "1"
 typetag = "0.2"
