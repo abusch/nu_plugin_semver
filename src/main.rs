@@ -1,7 +1,7 @@
 use std::fmt::Write;
 use std::ops::Deref;
 
-use nu_plugin::{EvaluatedCall, JsonSerializer, LabeledError, Plugin};
+use nu_plugin::{EvaluatedCall, LabeledError, MsgPackSerializer, Plugin};
 use nu_protocol::{PluginSignature, Record, ShellError, Span, SyntaxShape, Type, Value};
 use version::{VersionReqValue, VersionValue};
 
@@ -172,7 +172,7 @@ impl Plugin for SemverPlugin {
 }
 
 fn main() {
-    nu_plugin::serve_plugin(&mut SemverPlugin, JsonSerializer)
+    nu_plugin::serve_plugin(&mut SemverPlugin, MsgPackSerializer)
 }
 
 fn get_brief_subcommand_help(sigs: &[PluginSignature]) -> String {
