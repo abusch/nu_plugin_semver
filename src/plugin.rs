@@ -73,19 +73,35 @@ impl SemverPlugin {
     }
 
     pub fn bump(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
-        let mut version: VersionValue = input.try_into()?;
-        let level: Spanned<String> = call.req(0)?;
-        let level = level.item.parse::<Level>().map_err(|e| LabeledError {
-            msg: "Valid levels are: major, minor, patch, alpha, beta, rc".to_owned(),
-            label: e.to_string(),
-            span: Some(level.span),
-        })?;
+        let ignore_errors = call.has_flag("ignore-errors");
 
-        version
-            .bump(level)
-            .map_err(|e| e.into_labeled_error(version.span()))?;
+        let res = {
+            let mut version: VersionValue = input.try_into()?;
+            let level: Spanned<String> = call.req(0)?;
+            let level = level.item.parse::<Level>().map_err(|e| LabeledError {
+                msg: "Valid levels are: major, minor, patch, alpha, beta, rc".to_owned(),
+                label: e.to_string(),
+                span: Some(level.span),
+            })?;
+            let meta: Option<String> = call.get_flag("build-metadata")?;
 
-        Ok(version.into_value())
+            version
+                .bump(level, meta)
+                .map_err(|e| e.into_labeled_error(version.span()))?;
+
+            Ok(version)
+        };
+
+        match res {
+            Ok(v) => Ok(v.into_value()),
+            Err(e) => {
+                if ignore_errors {
+                    Ok(input.clone())
+                } else {
+                    Err(e)
+                }
+            }
+        }
     }
 
     pub fn sort(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {

@@ -1,8 +1,8 @@
-use std::ops::Deref;
+use std::{num::ParseIntError, ops::Deref};
 
 use nu_plugin::LabeledError;
 use nu_protocol::{FromValue, ShellError, Span, Value};
-use semver::Prerelease;
+use semver::{BuildMetadata, Prerelease};
 
 const ALPHA: &str = "alpha";
 const BETA: &str = "beta";
@@ -10,10 +10,10 @@ const RC: &str = "rc";
 
 #[derive(Debug, thiserror::Error)]
 pub enum VersionError {
-    #[error("Invalid pre-release format")]
-    InvalidPrerelase,
     #[error("Invalid level {0} for pre-release {1}")]
     InvalidLevelForPrerelase(Level, String),
+    #[error("Only numerical suffixes are supported in pre-release field: {0}")]
+    InvalidNumericSuffixInPrerelease(#[from] ParseIntError),
     #[error(transparent)]
     Semver(#[from] semver::Error),
 }
@@ -37,6 +37,7 @@ pub enum Level {
     Alpha,
     Beta,
     Rc,
+    Release,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -54,74 +55,118 @@ impl VersionValue {
         self.span
     }
 
-    pub fn bump(&mut self, level: Level) -> Result<(), VersionError> {
+    pub fn bump(
+        &mut self,
+        level: Level,
+        build_metadata: Option<String>,
+    ) -> Result<(), VersionError> {
         match level {
-            Level::Major => self.version = semver::Version::new(self.major + 1, 0, 0),
-            Level::Minor => self.version = semver::Version::new(self.major, self.minor + 1, 0),
-            Level::Patch => {
-                self.version = semver::Version::new(self.major, self.minor, self.patch + 1)
-            }
+            Level::Major => self.bump_major(),
+            Level::Minor => self.bump_minor(),
+            Level::Patch => self.bump_patch(),
             Level::Alpha => {
-                let new_pre = if let Some((current_level, num)) = self.pre_release_version_num()? {
+                let new_num = if let Some((current_level, num)) = self.pre_release_version_num()? {
                     if current_level == ALPHA {
-                        Prerelease::new(&format!("{}.{}", ALPHA, num + 1))?
+                        // 1.2.3-alpha => 1.2.3-alpha.1
+                        // 1.2.3-alpha.1 => 1.2.3-alpha.2
+                        num.unwrap_or(0) + 1
                     } else {
+                        // Unknown level or trying to downgrade from beta or rc
                         return Err(VersionError::InvalidLevelForPrerelase(
                             level,
                             self.pre.to_string(),
                         ));
                     }
                 } else {
-                    Prerelease::new(&format!("{}.1", ALPHA))?
+                    // 1.2.3 => 1.2.4-alpha.1
+                    self.bump_patch();
+                    1
                 };
-                self.version.pre = new_pre;
+                self.version.pre = Prerelease::new(&format!("{ALPHA}.{new_num}"))?;
             }
             Level::Beta => {
-                let new_pre = if let Some((current_level, num)) = self.pre_release_version_num()? {
+                let new_num = if let Some((current_level, num)) = self.pre_release_version_num()? {
                     if current_level == ALPHA {
-                        Prerelease::new(&format!("{}.{}", BETA, 1))?
+                        // 1.2.3-alpha.2 => 1.2.3-beta.1
+                        1
                     } else if current_level == BETA {
-                        Prerelease::new(&format!("{}.{}", BETA, num + 1))?
+                        // 1.2.3-beta => 1.2.3-beta.1
+                        // 1.2.3-beta.2 => 1.2.3-beta.3
+                        num.unwrap_or(0) + 1
                     } else {
+                        // unknown level or trying to downgrade from rc
                         return Err(VersionError::InvalidLevelForPrerelase(
                             level,
                             self.pre.to_string(),
                         ));
                     }
                 } else {
-                    Prerelease::new(&format!("{}.1", BETA))?
+                    // 1.2.3 => 1.2.4-beta.1
+                    self.bump_patch();
+                    1
                 };
-                self.version.pre = new_pre;
+                self.version.pre = Prerelease::new(&format!("{BETA}.{new_num}"))?;
             }
             Level::Rc => {
-                let new_pre = if let Some((current_level, num)) = self.pre_release_version_num()? {
+                let new_num = if let Some((current_level, num)) = self.pre_release_version_num()? {
                     if current_level == ALPHA || current_level == BETA {
-                        Prerelease::new(&format!("{}.{}", RC, 1))?
+                        // 1.2.3-alpha.2 => 1.2.3-rc.1
+                        // 1.2.3-beta.2 => 1.2.3-rc.1
+                        1
                     } else if current_level == RC {
-                        Prerelease::new(&format!("{}.{}", RC, num + 1))?
+                        // 1.2.3 => 1.2.3-rc.1
+                        // 1.2.3-rc.2 => 1.2.3-rc.3
+                        num.unwrap_or(0) + 1
                     } else {
+                        // Unknown level
                         return Err(VersionError::InvalidLevelForPrerelase(
                             level,
                             self.pre.to_string(),
                         ));
                     }
                 } else {
-                    Prerelease::new(&format!("{}.1", RC))?
+                    1
                 };
-                self.version.pre = new_pre;
+                self.version.pre = Prerelease::new(&format!("{RC}.{new_num}"))?;
             }
+            Level::Release => {
+                // 1.2.3-beta.1 => 1.2.3
+                self.version.pre = Prerelease::EMPTY;
+            }
+        }
+        if let Some(meta) = build_metadata {
+            self.version.build = BuildMetadata::new(&meta)?;
         }
         Ok(())
     }
 
-    fn pre_release_version_num(&self) -> Result<Option<(String, u64)>, VersionError> {
+    fn bump_major(&mut self) {
+        // 1.2.3-foo+bar => 2.0.0
+        self.version = semver::Version::new(self.major + 1, 0, 0);
+    }
+
+    fn bump_minor(&mut self) {
+        // 1.2.3-foo+bar => 1.3.0
+        self.version = semver::Version::new(self.major, self.minor + 1, 0)
+    }
+
+    fn bump_patch(&mut self) {
+        if !self.version.pre.is_empty() {
+            // 1.2.3-foo+bar => 1.2.3
+            self.version.pre = Prerelease::EMPTY;
+        } else {
+            // 1.2.3 => 1.2.4
+            self.version = semver::Version::new(self.major, self.minor, self.patch + 1);
+        }
+    }
+
+    fn pre_release_version_num(&self) -> Result<Option<(String, Option<u64>)>, VersionError> {
         if !self.pre.is_empty() {
-            let (alpha, num) = self
-                .pre
-                .split_once('.')
-                .ok_or(VersionError::InvalidPrerelase)?;
-            if let Ok(id) = num.parse::<u64>() {
-                return Ok(Some((alpha.to_owned(), id)));
+            if let Some((alpha, num)) = self.pre.split_once('.') {
+                let n = num.parse::<u64>()?;
+                return Ok(Some((alpha.to_owned(), Some(n))));
+            } else {
+                return Ok(Some((self.pre.to_string(), None)));
             }
         }
 
