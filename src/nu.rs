@@ -26,7 +26,7 @@ impl Plugin for SemverPlugin {
                 .plugin_examples(from_record_examples())
                 .input_output_type(record_type(), Type::String),
             PluginSignature::build("semver bump")
-                .usage("Bump to the version to the next level")
+                .usage("Bump the version to the next level")
                 .switch(
                     "ignore-errors",
                     "If the input is not a valid SemVer version, return the original string unchanged without raising an error",
