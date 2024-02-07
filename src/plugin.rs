@@ -95,7 +95,7 @@ impl SemverPlugin {
         match res {
             Ok(v) => Ok(v.into_value()),
             Err(e) => {
-                if ignore_errors {
+                if ignore_errors.is_ok() {
                     Ok(input.clone())
                 } else {
                     Err(e)
@@ -113,7 +113,7 @@ impl SemverPlugin {
             .map(VersionValue::try_from)
             .collect::<Result<Vec<_>, _>>()?;
         versions.sort_by(|a, b| a.deref().cmp(b.deref()));
-        if reverse {
+        if reverse.is_ok() {
             versions.reverse();
         }
         Ok(Value::list(

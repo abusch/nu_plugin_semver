@@ -76,6 +76,7 @@ impl Plugin for SemverPlugin {
     fn run(
         &mut self,
         name: &str,
+        _config: &Option<Value>,
         call: &nu_plugin::EvaluatedCall,
         input: &nu_protocol::Value,
     ) -> Result<nu_protocol::Value, nu_plugin::LabeledError> {
