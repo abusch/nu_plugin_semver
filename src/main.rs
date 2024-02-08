@@ -6,5 +6,5 @@ mod plugin;
 mod version;
 
 fn main() {
-    nu_plugin::serve_plugin(&mut SemverPlugin, MsgPackSerializer)
+    nu_plugin::serve_plugin(&mut SemverPlugin, MsgPackSerializer);
 }

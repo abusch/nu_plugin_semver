@@ -15,9 +15,6 @@ impl SemverPlugin {
 
     #[allow(clippy::wrong_self_convention)]
     pub fn from_record(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
-        let span = call.head;
-        let r = input.as_record()?;
-
         fn get_value<'a>(
             r: &'a Record,
             col_name: &'static str,
@@ -29,6 +26,9 @@ impl SemverPlugin {
                 src_span: span,
             })
         }
+
+        let span = call.head;
+        let r = input.as_record()?;
 
         let version = semver::Version {
             major: get_value(r, "major", span)?.as_i64()? as u64,

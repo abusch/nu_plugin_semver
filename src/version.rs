@@ -147,30 +147,28 @@ impl VersionValue {
 
     fn bump_minor(&mut self) {
         // 1.2.3-foo+bar => 1.3.0
-        self.version = semver::Version::new(self.major, self.minor + 1, 0)
+        self.version = semver::Version::new(self.major, self.minor + 1, 0);
     }
 
     fn bump_patch(&mut self) {
-        if !self.version.pre.is_empty() {
-            // 1.2.3-foo+bar => 1.2.3
-            self.version.pre = Prerelease::EMPTY;
-        } else {
+        if self.version.pre.is_empty() {
             // 1.2.3 => 1.2.4
             self.version = semver::Version::new(self.major, self.minor, self.patch + 1);
+        } else {
+            // 1.2.3-foo+bar => 1.2.3
+            self.version.pre = Prerelease::EMPTY;
         }
     }
 
     fn pre_release_version_num(&self) -> Result<Option<(String, Option<u64>)>, VersionError> {
-        if !self.pre.is_empty() {
-            if let Some((alpha, num)) = self.pre.split_once('.') {
-                let n = num.parse::<u64>()?;
-                return Ok(Some((alpha.to_owned(), Some(n))));
-            } else {
-                return Ok(Some((self.pre.to_string(), None)));
-            }
+        if self.pre.is_empty() {
+            Ok(None)
+        } else if let Some((alpha, num)) = self.pre.split_once('.') {
+            let n = num.parse::<u64>()?;
+            Ok(Some((alpha.to_owned(), Some(n))))
+        } else {
+            Ok(Some((self.pre.to_string(), None)))
         }
-
-        Ok(None)
     }
 }
 
