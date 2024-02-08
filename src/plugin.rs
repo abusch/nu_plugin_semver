@@ -73,7 +73,7 @@ impl SemverPlugin {
     }
 
     pub fn bump(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
-        let ignore_errors = call.has_flag("ignore-errors");
+        let ignore_errors = call.has_flag("ignore-errors")?;
 
         let res = {
             let mut version: VersionValue = input.try_into()?;
@@ -105,7 +105,7 @@ impl SemverPlugin {
     }
 
     pub fn sort(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
-        let reverse = call.has_flag("reverse");
+        let reverse = call.has_flag("reverse")?;
         let span = call.head;
         let values = input.as_list()?;
         let mut versions = values

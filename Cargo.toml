@@ -12,8 +12,8 @@ repository = "https://github.com/abusch/nu_plugin_semver"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-nu-plugin = "0.89.0"
-nu-protocol = "0.89.0"
+nu-plugin = "0.90.1"
+nu-protocol = "0.90.1"
 semver = { version = "1.0.20", features = ["serde"] }
 serde = "1"
 strum = { version = "0.25", features = ["derive"] }
