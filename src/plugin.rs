@@ -73,7 +73,7 @@ impl SemverPlugin {
     }
 
     pub fn bump(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
-        let ignore_errors = call.has_flag("ignore-errors");
+        let ignore_errors = call.has_flag("ignore-errors")?;
 
         let res = {
             let mut version: VersionValue = input.try_into()?;
@@ -95,7 +95,7 @@ impl SemverPlugin {
         match res {
             Ok(v) => Ok(v.into_value()),
             Err(e) => {
-                if ignore_errors.is_ok() {
+                if ignore_errors {
                     Ok(input.clone())
                 } else {
                     Err(e)
@@ -105,7 +105,7 @@ impl SemverPlugin {
     }
 
     pub fn sort(&self, call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
-        let reverse = call.has_flag("reverse");
+        let reverse = call.has_flag("reverse")?;
         let span = call.head;
         let values = input.as_list()?;
         let mut versions = values
@@ -113,7 +113,7 @@ impl SemverPlugin {
             .map(VersionValue::try_from)
             .collect::<Result<Vec<_>, _>>()?;
         versions.sort_by(|a, b| a.deref().cmp(b.deref()));
-        if reverse.is_ok() {
+        if reverse {
             versions.reverse();
         }
         Ok(Value::list(
