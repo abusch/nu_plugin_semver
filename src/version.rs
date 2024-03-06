@@ -177,9 +177,9 @@ impl<'a> TryFrom<&'a Value> for VersionValue {
 
     fn try_from(value: &'a Value) -> Result<Self, Self::Error> {
         let span = value.span();
-        let item = value.as_string()?;
+        let item = value.as_str()?;
 
-        let version = semver::Version::parse(&item).map_err(|e| ShellError::IncorrectValue {
+        let version = semver::Version::parse(item).map_err(|e| ShellError::IncorrectValue {
             msg: format!("Value is not a valid semver version: {e}"),
             val_span: span,
             call_span: span,
@@ -223,9 +223,9 @@ impl VersionReqValue {
 impl FromValue for VersionReqValue {
     fn from_value(v: Value) -> Result<Self, ShellError> {
         let span = v.span();
-        let item = v.as_string()?;
+        let item = v.as_str()?;
 
-        let req = semver::VersionReq::parse(&item).map_err(|e| ShellError::IncorrectValue {
+        let req = semver::VersionReq::parse(item).map_err(|e| ShellError::IncorrectValue {
             msg: format!("Value is not a valid semver requirement: {e}"),
             val_span: span,
             call_span: span,

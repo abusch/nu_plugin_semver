@@ -1,10 +1,16 @@
-use nu_plugin::MsgPackSerializer;
-use plugin::SemverPlugin;
+use nu_plugin::{MsgPackSerializer, Plugin};
 
-mod nu;
-mod plugin;
+mod commands;
 mod version;
 
+pub struct SemverPlugin;
+
+impl Plugin for SemverPlugin {
+    fn commands(&self) -> Vec<Box<dyn nu_plugin::PluginCommand<Plugin = Self>>> {
+        commands::commands()
+    }
+}
+
 fn main() {
-    nu_plugin::serve_plugin(&mut SemverPlugin, MsgPackSerializer);
+    nu_plugin::serve_plugin(&SemverPlugin, MsgPackSerializer);
 }
