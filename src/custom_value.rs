@@ -27,6 +27,26 @@ impl CustomValue for SemverCustomValue {
     fn as_any(&self) -> &dyn std::any::Any {
         self
     }
+
+    fn follow_path_string(
+        &self,
+        self_span: Span,
+        column_name: String,
+        path_span: Span,
+    ) -> Result<Value, ShellError> {
+        match column_name.as_str() {
+            "major" => Ok(Value::int(self.0.major as i64, path_span)),
+            "minor" => Ok(Value::int(self.0.minor as i64, path_span)),
+            "patch" => Ok(Value::int(self.0.patch as i64, path_span)),
+            "pre" => Ok(Value::string(self.0.pre.to_string(), path_span)),
+            "build" => Ok(Value::string(self.0.build.to_string(), path_span)),
+            _ => Err(ShellError::CantFindColumn {
+                col_name: column_name,
+                span: path_span,
+                src_span: self_span,
+            }),
+        }
+    }
 }
 
 impl<'a> TryFrom<&'a Value> for SemverCustomValue {
