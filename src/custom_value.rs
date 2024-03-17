@@ -19,7 +19,7 @@ impl CustomValue for SemverCustomValue {
     }
 
     fn value_string(&self) -> String {
-        format!("Version({})", self.0)
+        "semver".to_string()
     }
 
     fn to_base_value(&self, span: Span) -> Result<Value, ShellError> {
