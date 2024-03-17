@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 use nu_protocol::{CustomValue, ShellError, Span, Value};
 use serde::{Deserialize, Serialize};
 
@@ -46,6 +48,14 @@ impl CustomValue for SemverCustomValue {
                 src_span: self_span,
             }),
         }
+    }
+
+    fn partial_cmp(&self, other: &Value) -> Option<Ordering> {
+        other
+            .as_custom_value()
+            .ok()
+            .and_then(|cv| cv.as_any().downcast_ref())
+            .and_then(|v: &SemverCustomValue| self.0.partial_cmp(&v.0))
     }
 }
 
