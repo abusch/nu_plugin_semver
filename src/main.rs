@@ -1,6 +1,7 @@
 use nu_plugin::{MsgPackSerializer, Plugin};
 
 mod commands;
+mod custom_value;
 mod version;
 
 pub struct SemverPlugin;
