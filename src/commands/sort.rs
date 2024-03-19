@@ -1,8 +1,8 @@
 use std::ops::Deref;
 
 use crate::{version::VersionValue, SemverPlugin};
-use nu_plugin::{EvaluatedCall, LabeledError, SimplePluginCommand};
-use nu_protocol::{PluginExample, PluginSignature, Type, Value};
+use nu_plugin::{EvaluatedCall, SimplePluginCommand};
+use nu_protocol::{LabeledError, PluginExample, PluginSignature, Type, Value};
 pub struct SemverSort;
 
 impl SimplePluginCommand for SemverSort {

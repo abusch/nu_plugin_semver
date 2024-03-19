@@ -1,6 +1,8 @@
 use crate::SemverPlugin;
-use nu_plugin::{EvaluatedCall, LabeledError, SimplePluginCommand};
-use nu_protocol::{PluginExample, PluginSignature, Record, ShellError, Span, Type, Value};
+use nu_plugin::{EvaluatedCall, SimplePluginCommand};
+use nu_protocol::{
+    LabeledError, PluginExample, PluginSignature, Record, ShellError, Span, Type, Value,
+};
 
 use super::record_type;
 
@@ -61,18 +63,16 @@ impl SimplePluginCommand for SemverFromRecord {
             pre: get_value(r, "pre", span)?
                 .as_str()?
                 .parse()
-                .map_err(|e| LabeledError {
-                    label: "Incorrect value".to_string(),
-                    msg: format!("Incorrect value for 'pre' field: {e}"),
-                    span: Some(span),
+                .map_err(|e: semver::Error| {
+                    LabeledError::new(format!("Incorrect value for 'pre' field: {e}"))
+                        .with_label(e.to_string(), span)
                 })?,
             build: get_value(r, "build", span)?
                 .as_str()?
                 .parse()
-                .map_err(|e| LabeledError {
-                    label: "Incorrect value".to_string(),
-                    msg: format!("Incorrect value for 'build' field: {e}"),
-                    span: Some(span),
+                .map_err(|e: semver::Error| {
+                    LabeledError::new(format!("Incorrect value for 'build' field: {e}"))
+                        .with_label(e.to_string(), span)
                 })?,
         };
 

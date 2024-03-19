@@ -1,7 +1,6 @@
 use std::{num::ParseIntError, ops::Deref};
 
-use nu_plugin::LabeledError;
-use nu_protocol::{FromValue, ShellError, Span, Value};
+use nu_protocol::{FromValue, LabeledError, ShellError, Span, Value};
 use semver::{BuildMetadata, Prerelease};
 
 const ALPHA: &str = "alpha";
@@ -20,11 +19,7 @@ pub enum VersionError {
 
 impl VersionError {
     pub fn into_labeled_error(self, span: Span) -> LabeledError {
-        LabeledError {
-            label: "Semver error".to_string(),
-            msg: self.to_string(),
-            span: Some(span),
-        }
+        LabeledError::new("Semver error").with_label(self.to_string(), span)
     }
 }
 

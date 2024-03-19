@@ -18,7 +18,7 @@ impl CustomValue for SemverCustomValue {
         Value::custom_value(Box::new(self.clone()), span)
     }
 
-    fn value_string(&self) -> String {
+    fn type_name(&self) -> String {
         "semver".to_string()
     }
 

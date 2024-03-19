@@ -2,8 +2,8 @@ use crate::{
     version::{VersionReqValue, VersionValue},
     SemverPlugin,
 };
-use nu_plugin::{EvaluatedCall, LabeledError, SimplePluginCommand};
-use nu_protocol::{PluginExample, PluginSignature, SyntaxShape, Type, Value};
+use nu_plugin::{EvaluatedCall, SimplePluginCommand};
+use nu_protocol::{LabeledError, PluginExample, PluginSignature, SyntaxShape, Type, Value};
 
 pub struct SemverMatchReq;
 

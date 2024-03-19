@@ -1,6 +1,6 @@
 use crate::{version::VersionValue, SemverPlugin};
-use nu_plugin::{EvaluatedCall, LabeledError, SimplePluginCommand};
-use nu_protocol::{record, PluginExample, PluginSignature, Record, Type, Value};
+use nu_plugin::{EvaluatedCall, SimplePluginCommand};
+use nu_protocol::{record, LabeledError, PluginExample, PluginSignature, Record, Type, Value};
 
 use super::record_type;
 

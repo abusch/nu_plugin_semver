@@ -2,8 +2,10 @@ use crate::{
     version::{Level, VersionValue},
     SemverPlugin,
 };
-use nu_plugin::{EvaluatedCall, LabeledError, SimplePluginCommand};
-use nu_protocol::{PluginExample, PluginSignature, Spanned, SyntaxShape, Type, Value};
+use nu_plugin::{EvaluatedCall, SimplePluginCommand};
+use nu_protocol::{
+    LabeledError, PluginExample, PluginSignature, Spanned, SyntaxShape, Type, Value,
+};
 
 pub struct SemverBump;
 
@@ -83,10 +85,9 @@ impl SimplePluginCommand for SemverBump {
         let res = {
             let mut version: VersionValue = input.try_into()?;
             let level: Spanned<String> = call.req(0)?;
-            let level = level.item.parse::<Level>().map_err(|e| LabeledError {
-                msg: "Valid levels are: major, minor, patch, alpha, beta, rc".to_owned(),
-                label: e.to_string(),
-                span: Some(level.span),
+            let level = level.item.parse::<Level>().map_err(|e| {
+                LabeledError::new("Valid levels are: major, minor, patch, alpha, beta, rc")
+                    .with_label(e.to_string(), level.span)
             })?;
             let meta: Option<String> = call.get_flag("build-metadata")?;
 
