@@ -1,14 +1,22 @@
 use crate::SemverPlugin;
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
-use nu_protocol::{LabeledError, PluginSignature, Value};
+use nu_protocol::{LabeledError, Signature, Value};
 
 pub struct SemverCommand;
 
 impl SimplePluginCommand for SemverCommand {
     type Plugin = SemverPlugin;
 
-    fn signature(&self) -> PluginSignature {
-        PluginSignature::build("semver").usage("Show all the semver commands")
+    fn name(&self) -> &str {
+        "semver"
+    }
+
+    fn usage(&self) -> &str {
+        "Show all the semver commands"
+    }
+
+    fn signature(&self) -> Signature {
+        Signature::build(self.name())
     }
 
     fn run(

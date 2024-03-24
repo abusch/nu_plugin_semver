@@ -8,14 +8,14 @@ pub struct SemverCustomValue(semver::Version);
 
 impl SemverCustomValue {
     pub fn into_value(self, span: Span) -> Value {
-        Value::custom_value(Box::new(self), span)
+        Value::custom(Box::new(self), span)
     }
 }
 
 #[typetag::serde]
 impl CustomValue for SemverCustomValue {
     fn clone_value(&self, span: Span) -> Value {
-        Value::custom_value(Box::new(self.clone()), span)
+        Value::custom(Box::new(self.clone()), span)
     }
 
     fn type_name(&self) -> String {

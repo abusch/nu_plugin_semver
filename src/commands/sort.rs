@@ -2,26 +2,41 @@ use std::ops::Deref;
 
 use crate::{version::VersionValue, SemverPlugin};
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
-use nu_protocol::{LabeledError, PluginExample, PluginSignature, Type, Value};
+use nu_protocol::{Example, LabeledError, Signature, Type, Value};
 pub struct SemverSort;
 
 impl SimplePluginCommand for SemverSort {
     type Plugin = SemverPlugin;
 
-    fn signature(&self) -> PluginSignature {
-        PluginSignature::build("semver sort")
-            .usage("Sort a list of versions using SemVer ordering.")
-            .extra_usage("Note: every item in the list needs to be a well-formed SemVer version.")
+    fn name(&self) -> &str {
+        "semver sort"
+    }
+
+    fn usage(&self) -> &str {
+        "Sort a list of versions using SemVer ordering."
+    }
+
+    fn extra_usage(&self) -> &str {
+        "Note: every item in the list needs to be a well-formed SemVer version."
+    }
+
+    fn signature(&self) -> Signature {
+        Signature::build(self.name())
             .switch(
                 "reverse",
                 "Sort the versions in descending order",
                 Some('r'),
             )
-            .plugin_examples(
-    vec![
-        PluginExample {
-            example: r#"["3.2.1", "2.3.4", "3.2.2", "2.3.4-beta.1", "2.3.4-alpha.1", "2.3.4-alpha.2"] | semver sort"#.to_string(),
-            description: "sort versions by SemVer semantics.".to_string(),
+            .input_output_type(
+                Type::List(Box::new(Type::String)),
+                Type::List(Box::new(Type::String)),
+            )
+    }
+
+    fn examples(&self) -> Vec<Example> {
+        vec![Example {
+            example: r#"["3.2.1", "2.3.4", "3.2.2", "2.3.4-beta.1", "2.3.4-alpha.1", "2.3.4-alpha.2"] | semver sort"#,
+            description: "sort versions by SemVer semantics.",
             result: Some(Value::test_list(vec![
                 Value::test_string("2.3.4-alpha.1"),
                 Value::test_string("2.3.4-alpha.2"),
@@ -29,14 +44,8 @@ impl SimplePluginCommand for SemverSort {
                 Value::test_string("2.3.4"),
                 Value::test_string("3.2.1"),
                 Value::test_string("3.2.2"),
-            ]))
-        }
-    ]
-)
-            .input_output_type(
-                Type::List(Box::new(Type::String)),
-                Type::List(Box::new(Type::String)),
-            )
+            ])),
+        }]
     }
 
     fn run(

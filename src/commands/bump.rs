@@ -3,18 +3,19 @@ use crate::{
     SemverPlugin,
 };
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
-use nu_protocol::{
-    LabeledError, PluginExample, PluginSignature, Spanned, SyntaxShape, Type, Value,
-};
+use nu_protocol::{Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value};
 
 pub struct SemverBump;
 
 impl SimplePluginCommand for SemverBump {
     type Plugin = SemverPlugin;
 
-    fn signature(&self) -> PluginSignature {
-        PluginSignature::build("semver bump")
-                .usage("Bump the version to the next level")
+    fn name(&self) -> &str {
+        "semver bump"
+    }
+
+    fn signature(&self) -> Signature {
+        Signature::build(self.name())
                 .switch(
                     "ignore-errors",
                     "If the input is not a valid SemVer version, return the original string unchanged without raising an error",
@@ -31,46 +32,51 @@ impl SimplePluginCommand for SemverBump {
                     SyntaxShape::String,
                     "The version level to bump. Valid values are: major, minor, patch, alpha, beta, rc, or release."
                 )
-                .plugin_examples(
-    vec![
-        PluginExample {
-            example: r#""1.2.3-alpha.1+build" | semver bump major"#.to_string(),
-            description: "Bump major version".to_string(),
-            result: Some(Value::test_string("2.0.0")),
-        },
-        PluginExample {
-            example: r#""1.2.3-alpha.1+build" | semver bump minor"#.to_string(),
-            description: "Bump minor version".to_string(),
-            result: Some(Value::test_string("1.3.0")),
-        },
-        PluginExample {
-            example: r#""1.2.3+build" | semver bump patch"#.to_string(),
-            description: "Bump patch version from pre-release".to_string(),
-            result: Some(Value::test_string("1.2.4")),
-        },
-        PluginExample {
-            example: r#""1.2.3-alpha.1+build" | semver bump patch"#.to_string(),
-            description: "Bump patch version from pre-release".to_string(),
-            result: Some(Value::test_string("1.2.3")),
-        },
-        PluginExample {
-            example: r#""1.2.3-alpha.1+build" | semver bump alpha"#.to_string(),
-            description: "Bump current alpha pre-release to next alpha pre-release".to_string(),
-            result: Some(Value::test_string("1.2.3-alpha.2+build")),
-        },
-        PluginExample {
-            example: r#""1.2.3" | semver bump alpha"#.to_string(),
-            description: "Bump version to next alpha pre-release".to_string(),
-            result: Some(Value::test_string("1.2.4-alpha.1")),
-        },
-        PluginExample {
-            example: r#""1.2.3-rc.1" | semver bump release"#.to_string(),
-            description: "Release the current pre-release version".to_string(),
-            result: Some(Value::test_string("1.2.3")),
-        },
-    ]
-)
                 .input_output_type(Type::String, Type::String)
+    }
+
+    fn usage(&self) -> &str {
+        "Bump the version to the next level"
+    }
+
+    fn examples(&self) -> Vec<Example> {
+        vec![
+            Example {
+                example: r#""1.2.3-alpha.1+build" | semver bump major"#,
+                description: "Bump major version",
+                result: Some(Value::test_string("2.0.0")),
+            },
+            Example {
+                example: r#""1.2.3-alpha.1+build" | semver bump minor"#,
+                description: "Bump minor version",
+                result: Some(Value::test_string("1.3.0")),
+            },
+            Example {
+                example: r#""1.2.3+build" | semver bump patch"#,
+                description: "Bump patch version from pre-release",
+                result: Some(Value::test_string("1.2.4")),
+            },
+            Example {
+                example: r#""1.2.3-alpha.1+build" | semver bump patch"#,
+                description: "Bump patch version from pre-release",
+                result: Some(Value::test_string("1.2.3")),
+            },
+            Example {
+                example: r#""1.2.3-alpha.1+build" | semver bump alpha"#,
+                description: "Bump current alpha pre-release to next alpha pre-release",
+                result: Some(Value::test_string("1.2.3-alpha.2+build")),
+            },
+            Example {
+                example: r#""1.2.3" | semver bump alpha"#,
+                description: "Bump version to next alpha pre-release",
+                result: Some(Value::test_string("1.2.4-alpha.1")),
+            },
+            Example {
+                example: r#""1.2.3-rc.1" | semver bump release"#,
+                description: "Release the current pre-release version",
+                result: Some(Value::test_string("1.2.3")),
+            },
+        ]
     }
 
     fn run(

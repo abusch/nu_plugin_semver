@@ -1,8 +1,6 @@
 use crate::SemverPlugin;
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
-use nu_protocol::{
-    LabeledError, PluginExample, PluginSignature, Record, ShellError, Span, Type, Value,
-};
+use nu_protocol::{Example, LabeledError, Record, ShellError, Signature, Span, Type, Value};
 
 use super::record_type;
 
@@ -11,27 +9,35 @@ pub struct SemverFromRecord;
 impl SimplePluginCommand for SemverFromRecord {
     type Plugin = SemverPlugin;
 
-    fn signature(&self) -> PluginSignature {
-        PluginSignature::build("semver from-record")
-                .usage("Construct a SemVer version from a record")
-                .extra_usage("Note: the record needs to have the same components as what is returned by `semver to-record`")
-                .plugin_examples(
-    vec![
-        PluginExample {
-            example: r#"{ major: 2, minor: 3, patch: 4, pre: "", build: "" } | semver from-record"#
-                .to_string(),
-            description: "Parse a semver version into a record".to_string(),
-            result: Some(Value::test_string("2.3.4")),
-        },
-        PluginExample {
-            example: r#""1.2.3" | semver to-record | update build "foo" | semver from-record"#
-                .to_string(),
-            description: "Modify a semver version.".to_string(),
-            result: Some(Value::test_string("1.2.3+foo")),
-        },
-    ]
-)
-                .input_output_type(record_type(), Type::String)
+    fn name(&self) -> &str {
+        "semver from-record"
+    }
+
+    fn usage(&self) -> &str {
+        "Construct a SemVer version from a record"
+    }
+
+    fn extra_usage(&self) -> &str {
+        "Note: the record needs to have the same components as what is returned by `semver to-record`"
+    }
+
+    fn signature(&self) -> Signature {
+        Signature::build(self.name()).input_output_type(record_type(), Type::String)
+    }
+
+    fn examples(&self) -> Vec<Example> {
+        vec![
+            Example {
+                example: r#"{ major: 2, minor: 3, patch: 4, pre: "", build: "" } | semver from-record"#,
+                description: "Parse a semver version into a record",
+                result: Some(Value::test_string("2.3.4")),
+            },
+            Example {
+                example: r#""1.2.3" | semver to-record | update build "foo" | semver from-record"#,
+                description: "Modify a semver version.",
+                result: Some(Value::test_string("1.2.3+foo")),
+            },
+        ]
     }
 
     fn run(
