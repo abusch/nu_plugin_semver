@@ -1,9 +1,9 @@
-use crate::{
-    version::{VersionReqValue, VersionValue},
-    SemverPlugin,
-};
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
 use nu_protocol::{Example, LabeledError, Signature, SyntaxShape, Type, Value};
+
+use crate::{custom_value::SemverCustomValue, version::VersionReqValue, SemverPlugin};
+
+use super::custom_type;
 
 pub struct SemverMatchReq;
 
@@ -26,7 +26,10 @@ impl SimplePluginCommand for SemverMatchReq {
                 "A valid version requirement",
             )
             .filter()
-            .input_output_type(Type::String, Type::Bool)
+            .input_output_types(vec![
+                (Type::String, Type::Bool),
+                (custom_type(), Type::Bool),
+            ])
     }
 
     fn examples(&self) -> Vec<Example> {
@@ -58,7 +61,7 @@ impl SimplePluginCommand for SemverMatchReq {
     ) -> Result<Value, LabeledError> {
         let req: VersionReqValue = call.req(0)?;
         let span = call.head;
-        let version: VersionValue = input.try_into()?;
+        let version: SemverCustomValue = input.try_into()?;
 
         Ok(Value::bool(req.matches(&version), span))
     }

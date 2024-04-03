@@ -1,9 +1,9 @@
-use crate::{
-    version::{Level, VersionValue},
-    SemverPlugin,
-};
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
 use nu_protocol::{Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value};
+
+use crate::{custom_value::SemverCustomValue, version::Level, SemverPlugin};
+
+use super::custom_type;
 
 pub struct SemverBump;
 
@@ -32,7 +32,10 @@ impl SimplePluginCommand for SemverBump {
                     SyntaxShape::String,
                     "The version level to bump. Valid values are: major, minor, patch, alpha, beta, rc, or release."
                 )
-                .input_output_type(Type::String, Type::String)
+                .input_output_types(vec![
+                    (Type::String, custom_type()),
+                    (custom_type(), custom_type()),
+                ])
     }
 
     fn usage(&self) -> &str {
@@ -87,9 +90,10 @@ impl SimplePluginCommand for SemverBump {
         input: &Value,
     ) -> Result<Value, LabeledError> {
         let ignore_errors = call.has_flag("ignore-errors")?;
+        let span = call.head;
 
         let res = {
-            let mut version: VersionValue = input.try_into()?;
+            let mut version: SemverCustomValue = input.try_into()?;
             let level: Spanned<String> = call.req(0)?;
             let level = level.item.parse::<Level>().map_err(|e| {
                 LabeledError::new("Valid levels are: major, minor, patch, alpha, beta, rc")
@@ -99,13 +103,13 @@ impl SimplePluginCommand for SemverBump {
 
             version
                 .bump(level, meta)
-                .map_err(|e| e.into_labeled_error(version.span()))?;
+                .map_err(|e| e.into_labeled_error(span))?;
 
             Ok(version)
         };
 
         match res {
-            Ok(v) => Ok(v.into_value()),
+            Ok(v) => Ok(v.into_value(span)),
             Err(e) => {
                 if ignore_errors {
                     Ok(input.clone())

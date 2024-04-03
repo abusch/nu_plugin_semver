@@ -5,8 +5,8 @@ use crate::SemverPlugin;
 
 mod bump;
 mod from_record;
+mod into_semver;
 mod match_req;
-mod parse;
 mod root;
 mod sort;
 mod to_record;
@@ -14,7 +14,7 @@ mod to_record;
 pub fn commands() -> Vec<Box<dyn PluginCommand<Plugin = SemverPlugin>>> {
     vec![
         Box::new(root::SemverCommand),
-        Box::new(parse::SemverParse),
+        Box::new(into_semver::IntoSemver),
         Box::new(to_record::SemverToRecord),
         Box::new(from_record::SemverFromRecord),
         Box::new(bump::SemverBump),
@@ -31,4 +31,8 @@ fn record_type() -> Type {
         ("pre".to_string(), Type::String),
         ("build".to_string(), Type::String),
     ])
+}
+
+fn custom_type() -> Type {
+    Type::Custom("semver".to_owned())
 }
