@@ -24,15 +24,18 @@ pub fn commands() -> Vec<Box<dyn PluginCommand<Plugin = SemverPlugin>>> {
 }
 
 fn record_type() -> Type {
-    Type::Record(vec![
-        ("major".to_string(), Type::Int),
-        ("minor".to_string(), Type::Int),
-        ("patch".to_string(), Type::Int),
-        ("pre".to_string(), Type::String),
-        ("build".to_string(), Type::String),
-    ])
+    Type::Record(
+        vec![
+            ("major".to_string(), Type::Int),
+            ("minor".to_string(), Type::Int),
+            ("patch".to_string(), Type::Int),
+            ("pre".to_string(), Type::String),
+            ("build".to_string(), Type::String),
+        ]
+        .into(),
+    )
 }
 
 fn custom_type() -> Type {
-    Type::Custom("semver".to_owned())
+    Type::Custom("semver".into())
 }

@@ -1,4 +1,4 @@
-use std::{cmp::Ordering, ops::Deref};
+use std::{any::Any, cmp::Ordering, ops::Deref};
 
 use nu_protocol::{CustomValue, ShellError, Span, Value};
 use semver::{BuildMetadata, Prerelease};
@@ -145,7 +145,11 @@ impl CustomValue for SemverCustomValue {
         Ok(Value::string(self.0.to_string(), span))
     }
 
-    fn as_any(&self) -> &dyn std::any::Any {
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+
+    fn as_mut_any(&mut self) -> &mut dyn Any {
         self
     }
 

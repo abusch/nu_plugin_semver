@@ -70,7 +70,7 @@ impl SimplePluginCommand for SemverToRecord {
         record.push("build", Value::string(version.build.as_str(), span));
 
         Ok(Value::Record {
-            val: Box::new(record),
+            val: record.into(),
             internal_span: span,
         })
     }
