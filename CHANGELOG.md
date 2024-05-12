@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2024-05-12
+
+### Documentation
+
+- Update README.md
+
+### Features
+
+- Introduce custom value
+- Support path string
+- Implement partial_cmp
+
+### Miscellaneous Tasks
+
+- Migrate to new plugin API
+- Switch back to released versions of nu crates
+- Upgrade to nu 0.93.0
+
 ## [0.2.0] - 2024-02-08
 
 ### Bug Fixes
@@ -16,6 +34,7 @@ update nu crates to 0.90.1
 - Bump strum
 - Add git-cliff configuration
 - Add cargo-release configuration
+- Release nu_plugin_semver version 0.2.0
 
 ## [0.1.0] - 2024-01-11
 
