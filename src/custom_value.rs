@@ -129,6 +129,11 @@ impl SemverCustomValue {
             Ok(Some((self.0.pre.to_string(), None)))
         }
     }
+
+    /// For use by tests and examples only.
+    pub fn test_value(s: &str) -> Value {
+        Value::test_custom_value(Box::new(Self(s.parse::<semver::Version>().unwrap())))
+    }
 }
 
 #[typetag::serde]

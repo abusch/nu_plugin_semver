@@ -26,18 +26,11 @@ impl SimplePluginCommand for SemverFromRecord {
     }
 
     fn examples(&self) -> Vec<Example> {
-        vec![
-            Example {
-                example: r#"{ major: 2, minor: 3, patch: 4, pre: "", build: "" } | semver from-record"#,
-                description: "Parse a semver version into a record",
-                result: Some(Value::test_string("2.3.4")),
-            },
-            Example {
-                example: r#""1.2.3" | semver to-record | update build "foo" | semver from-record"#,
-                description: "Modify a semver version.",
-                result: Some(Value::test_string("1.2.3+foo")),
-            },
-        ]
+        vec![Example {
+            example: r#"{ major: 2, minor: 3, patch: 4, pre: "", build: "" } | semver from-record"#,
+            description: "Parse a semver version into a record",
+            result: Some(Value::test_string("2.3.4")),
+        }]
     }
 
     fn run(

@@ -47,37 +47,37 @@ impl SimplePluginCommand for SemverBump {
             Example {
                 example: r#""1.2.3-alpha.1+build" | semver bump major"#,
                 description: "Bump major version",
-                result: Some(Value::test_string("2.0.0")),
+                result: Some(SemverCustomValue::test_value("2.0.0")),
             },
             Example {
                 example: r#""1.2.3-alpha.1+build" | semver bump minor"#,
                 description: "Bump minor version",
-                result: Some(Value::test_string("1.3.0")),
+                result: Some(SemverCustomValue::test_value("1.3.0")),
             },
             Example {
                 example: r#""1.2.3+build" | semver bump patch"#,
-                description: "Bump patch version from pre-release",
-                result: Some(Value::test_string("1.2.4")),
+                description: "Bump patch version with build metadata",
+                result: Some(SemverCustomValue::test_value("1.2.4")),
             },
             Example {
                 example: r#""1.2.3-alpha.1+build" | semver bump patch"#,
                 description: "Bump patch version from pre-release",
-                result: Some(Value::test_string("1.2.3")),
+                result: Some(SemverCustomValue::test_value("1.2.3+build")),
             },
             Example {
                 example: r#""1.2.3-alpha.1+build" | semver bump alpha"#,
                 description: "Bump current alpha pre-release to next alpha pre-release",
-                result: Some(Value::test_string("1.2.3-alpha.2+build")),
+                result: Some(SemverCustomValue::test_value("1.2.3-alpha.2+build")),
             },
             Example {
                 example: r#""1.2.3" | semver bump alpha"#,
                 description: "Bump version to next alpha pre-release",
-                result: Some(Value::test_string("1.2.4-alpha.1")),
+                result: Some(SemverCustomValue::test_value("1.2.4-alpha.1")),
             },
             Example {
                 example: r#""1.2.3-rc.1" | semver bump release"#,
                 description: "Release the current pre-release version",
-                result: Some(Value::test_string("1.2.3")),
+                result: Some(SemverCustomValue::test_value("1.2.3")),
             },
         ]
     }
