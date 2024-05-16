@@ -18,10 +18,10 @@ In both cases you then need to register the plugin by running `plugin add /path/
 2
 
 # You can bump a version to different levels:
-> $v | bump patch
+> $v | semver bump patch
 1.2.3+build
 
-> $v | bump major
+> $v | semver bump major
 2.0.0
 
 # Semver values can be turned back into strings using
