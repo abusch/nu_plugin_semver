@@ -25,7 +25,7 @@ In both cases you then need to register the plugin by running `plugin add /path/
 2.0.0
 
 # Semver values can be turned back into strings using
-> $v | into string
+> $v | to text
 
 # Semver values can be matched against a version requirement:
 > let v = "3.2.1" | into semver
