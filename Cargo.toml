@@ -12,9 +12,9 @@ repository = "https://github.com/abusch/nu_plugin_semver"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-nu-plugin = "0.93.0"
-nu-plugin-test-support = "0.93.0"
-nu-protocol = "0.93.0"
+nu-plugin = "0.94.0"
+nu-plugin-test-support = "0.94.0"
+nu-protocol = "0.94.0"
 semver = { version = "1.0.20", features = ["serde"] }
 serde = "1"
 strum = { version = "0.26", features = ["derive"] }
@@ -24,3 +24,4 @@ typetag = "0.2"
 # [patch.crates-io]
 # nu-plugin = { git = "https://github.com/nushell/nushell/" }
 # nu-protocol = { git = "https://github.com/nushell/nushell/" }
+# nu-plugin-test-support = { git = "https://github.com/nushell/nushell/" }
