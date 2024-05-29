@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2024-05-29
+
 ## [0.3.0] - 2024-05-12
 
 ### Documentation
@@ -19,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Migrate to new plugin API
 - Switch back to released versions of nu crates
 - Upgrade to nu 0.93.0
+- Release nu_plugin_semver version 0.3.0
 
 ## [0.2.0] - 2024-02-08
 
