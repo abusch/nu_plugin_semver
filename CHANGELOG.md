@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2024-06-06
+
+### Bug Fixes
+
+- Move nu-plugin-test-support to dev-dependencies
+
 ## [0.4.0] - 2024-05-29
+
+### Miscellaneous Tasks
+
+- Release nu_plugin_semver version 0.4.0
 
 ## [0.3.0] - 2024-05-12
 
