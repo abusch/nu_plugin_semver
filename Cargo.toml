@@ -13,13 +13,15 @@ repository = "https://github.com/abusch/nu_plugin_semver"
 
 [dependencies]
 nu-plugin = "0.94.0"
-nu-plugin-test-support = "0.94.0"
-nu-protocol = "0.94.0"
+nu-protocol = { version = "0.94.0", features = ["plugin"] }
 semver = { version = "1.0.20", features = ["serde"] }
 serde = "1"
 strum = { version = "0.26", features = ["derive"] }
 thiserror = "1"
 typetag = "0.2"
+
+[dev-dependencies]
+nu-plugin-test-support = "0.94.0"
 
 # [patch.crates-io]
 # nu-plugin = { git = "https://github.com/nushell/nushell/" }
