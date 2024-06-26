@@ -172,7 +172,7 @@ impl CustomValue for SemverCustomValue {
             "build" => Ok(Value::string(self.0.build.to_string(), path_span)),
             _ => Err(ShellError::CantFindColumn {
                 col_name: column_name,
-                span: path_span,
+                span: Some(path_span),
                 src_span: self_span,
             }),
         }

@@ -47,7 +47,7 @@ impl SimplePluginCommand for SemverFromRecord {
         ) -> Result<&'a Value, ShellError> {
             r.get(col_name).ok_or(ShellError::CantFindColumn {
                 col_name: col_name.to_owned(),
-                span,
+                span: Some(span),
                 src_span: span,
             })
         }
