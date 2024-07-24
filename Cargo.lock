@@ -1032,7 +1032,7 @@ dependencies = [
 
 [[package]]
 name = "nu_plugin_semver"
-version = "0.5.0"
+version = "0.6.0"
 dependencies = [
  "nu-plugin",
  "nu-plugin-test-support",
