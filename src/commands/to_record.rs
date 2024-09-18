@@ -14,7 +14,7 @@ impl SimplePluginCommand for SemverToRecord {
         "semver to-record"
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Convert a version into its components"
     }
 

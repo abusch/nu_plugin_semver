@@ -11,7 +11,7 @@ impl SimplePluginCommand for SemverCommand {
         "semver"
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Show all the semver commands"
     }
 

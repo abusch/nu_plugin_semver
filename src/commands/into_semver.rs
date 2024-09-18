@@ -14,7 +14,7 @@ impl SimplePluginCommand for IntoSemver {
         "into semver"
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Build a semver value from a valid string, or from a record"
     }
 

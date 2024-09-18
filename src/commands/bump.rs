@@ -38,7 +38,7 @@ impl SimplePluginCommand for SemverBump {
                 ])
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Bump the version to the next level"
     }
 

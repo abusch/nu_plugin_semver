@@ -13,11 +13,11 @@ impl SimplePluginCommand for SemverFromRecord {
         "semver from-record"
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Construct a SemVer version from a record"
     }
 
-    fn extra_usage(&self) -> &str {
+    fn extra_description(&self) -> &str {
         "Note: the record needs to have the same components as what is returned by `semver to-record`"
     }
 

@@ -14,7 +14,7 @@ impl SimplePluginCommand for SemverMatchReq {
         "semver match-req"
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Try to match a SemVer version with a version requirement"
     }
 

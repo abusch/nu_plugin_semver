@@ -12,11 +12,11 @@ impl SimplePluginCommand for SemverSort {
         "semver sort"
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Sort a list of versions using SemVer ordering."
     }
 
-    fn extra_usage(&self) -> &str {
+    fn extra_description(&self) -> &str {
         "Note: every item in the list needs to be a well-formed SemVer version."
     }
 
