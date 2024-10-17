@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.0] - 2024-10-17
+
 ## [0.8.0] - 2024-09-18
+
+### Miscellaneous Tasks
+
+- Release nu_plugin_semver version 0.8.0
 
 ## [0.7.0] - 2024-08-21
 
