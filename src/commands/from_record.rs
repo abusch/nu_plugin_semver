@@ -40,15 +40,33 @@ impl SimplePluginCommand for SemverFromRecord {
         call: &EvaluatedCall,
         input: &Value,
     ) -> Result<Value, LabeledError> {
+        #[allow(clippy::result_large_err)]
         fn get_value<'a>(
             r: &'a Record,
             col_name: &'static str,
             span: Span,
-        ) -> Result<&'a Value, ShellError> {
-            r.get(col_name).ok_or(ShellError::CantFindColumn {
-                col_name: col_name.to_owned(),
-                span: Some(span),
-                src_span: span,
+        ) -> Result<&'a Value, LabeledError> {
+            r.get(col_name).ok_or(
+                ShellError::CantFindColumn {
+                    col_name: col_name.to_owned(),
+                    span: Some(span),
+                    src_span: span,
+                }
+                .into(),
+            )
+        }
+
+        #[allow(clippy::result_large_err)]
+        fn get_u64_value(
+            r: &Record,
+            col_name: &'static str,
+            span: Span,
+        ) -> Result<u64, LabeledError> {
+            let value = get_value(r, col_name, span)?;
+            let value_int = value.as_int()?;
+            u64::try_from(value_int).map_err(|e| {
+                LabeledError::new(format!("Invalid value for '{col_name}' field: {e}"))
+                    .with_label("Should be a positive integer", value.span())
             })
         }
 
@@ -56,9 +74,9 @@ impl SimplePluginCommand for SemverFromRecord {
         let r = input.as_record()?;
 
         let version = semver::Version {
-            major: get_value(r, "major", span)?.as_int()? as u64,
-            minor: get_value(r, "minor", span)?.as_int()? as u64,
-            patch: get_value(r, "patch", span)?.as_int()? as u64,
+            major: get_u64_value(r, "major", span)?,
+            minor: get_u64_value(r, "minor", span)?,
+            patch: get_u64_value(r, "patch", span)?,
             pre: get_value(r, "pre", span)?
                 .as_str()?
                 .parse()
