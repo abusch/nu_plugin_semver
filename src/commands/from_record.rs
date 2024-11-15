@@ -56,9 +56,9 @@ impl SimplePluginCommand for SemverFromRecord {
         let r = input.as_record()?;
 
         let version = semver::Version {
-            major: get_value(r, "major", span)?.as_i64()? as u64,
-            minor: get_value(r, "minor", span)?.as_i64()? as u64,
-            patch: get_value(r, "patch", span)?.as_i64()? as u64,
+            major: get_value(r, "major", span)?.as_int()? as u64,
+            minor: get_value(r, "minor", span)?.as_int()? as u64,
+            patch: get_value(r, "patch", span)?.as_int()? as u64,
             pre: get_value(r, "pre", span)?
                 .as_str()?
                 .parse()

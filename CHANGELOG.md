@@ -75,7 +75,7 @@ All notable changes to this project will be documented in this file.
 
 - Merge pull request #1 from Inveracity/update-nu-crates
 
-update nu crates to 0.90.1
+- update nu crates to 0.90.1
 - Bump strum
 - Add git-cliff configuration
 - Add cargo-release configuration
