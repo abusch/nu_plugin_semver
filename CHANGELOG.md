@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2024-11-15
+
+### Bug Fixes
+
+- Properly error out if one of the version numbers is negative
+
+### Miscellaneous Tasks
+
+- Update to nu 0.100.0
+
 ## [0.9.0] - 2024-10-17
+
+### Miscellaneous Tasks
+
+- Release nu_plugin_semver version 0.9.0
 
 ## [0.8.0] - 2024-09-18
 
@@ -75,7 +89,7 @@ All notable changes to this project will be documented in this file.
 
 - Merge pull request #1 from Inveracity/update-nu-crates
 
-- update nu crates to 0.90.1
+update nu crates to 0.90.1
 - Bump strum
 - Add git-cliff configuration
 - Add cargo-release configuration
