@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.1](https://github.com/abusch/nu_plugin_semver/compare/v0.11.0...v0.11.1) - 2024-12-27
+
+### Other
+
+- Create dependabot.yml
+- Create release-plz.yml
+- Create rust.yml
+
 ## [0.11.0] - 2024-12-27
 
 ### Miscellaneous Tasks
