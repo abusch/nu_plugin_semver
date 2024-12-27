@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.0] - 2024-12-27
+
+### Miscellaneous Tasks
+
+- Update to nu 0.101.0
+
 ## [0.10.0] - 2024-11-15
 
 ### Bug Fixes
@@ -11,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous Tasks
 
 - Update to nu 0.100.0
+- Release nu_plugin_semver version 0.10.0
 
 ## [0.9.0] - 2024-10-17
 
