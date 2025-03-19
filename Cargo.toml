@@ -2,7 +2,7 @@
 name = "nu_plugin_semver"
 authors = ["Antoine Busch <antoine.busch@gmail.com>"]
 version = "0.11.2"
-edition = "2021"
+edition = "2024"
 description = "A nushell plugin for dealing with SemVer versions"
 keywords = ["nu", "plugin", "semver", "versioning"]
 license = "MIT"
@@ -12,8 +12,8 @@ repository = "https://github.com/abusch/nu_plugin_semver"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-nu-plugin = "0.102.0"
-nu-protocol = { version = "0.102.0", features = ["plugin"] }
+nu-plugin = "0.103.0"
+nu-protocol = { version = "0.103.0", features = ["plugin"] }
 semver = { version = "1.0.23", features = ["serde"] }
 serde = "1"
 strum = { version = "0.27", features = ["derive"] }
@@ -21,7 +21,7 @@ thiserror = "2"
 typetag = "0.2"
 
 [dev-dependencies]
-nu-plugin-test-support = "0.102.0"
+nu-plugin-test-support = "0.103.0"
 
 # [patch.crates-io]
 # nu-plugin = { git = "https://github.com/nushell/nushell/" }
