@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.3](https://github.com/abusch/nu_plugin_semver/compare/v0.11.2...v0.11.3) - 2025-03-19
+
+### Other
+
+- Update for nu 0.103
+- *(deps)* bump strum from 0.26.3 to 0.27.1
+
 ## [0.11.2](https://github.com/abusch/nu_plugin_semver/compare/v0.11.1...v0.11.2) - 2025-02-05
 
 ### Other
