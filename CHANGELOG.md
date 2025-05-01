@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.4](https://github.com/abusch/nu_plugin_semver/compare/v0.11.3...v0.11.4) - 2025-05-01
+
+### Other
+
+- Upgrade to nu 0.104 ([#9](https://github.com/abusch/nu_plugin_semver/pull/9))
+
 ## [0.11.3](https://github.com/abusch/nu_plugin_semver/compare/v0.11.2...v0.11.3) - 2025-03-19
 
 ### Other
