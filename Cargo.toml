@@ -1,29 +1,29 @@
 [package]
-name = "nu_plugin_semver"
-authors = ["Antoine Busch <antoine.busch@gmail.com>"]
-version = "0.11.6"
-edition = "2024"
-description = "A nushell plugin for dealing with SemVer versions"
-keywords = ["nu", "plugin", "semver", "versioning"]
-license = "MIT"
-readme = "README.md"
-repository = "https://github.com/abusch/nu_plugin_semver"
+  authors    =["Antoine Busch <antoine.busch@gmail.com>"]
+  description="A nushell plugin for dealing with SemVer versions"
+  edition    ="2024"
+  keywords   =["nu", "plugin", "semver", "versioning"]
+  license    ="MIT"
+  name       ="nu_plugin_semver"
+  readme     ="README.md"
+  repository ="https://github.com/abusch/nu_plugin_semver"
+  version    ="0.11.6"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+  # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-nu-plugin = "0.106.0"
-nu-protocol = { version = "0.106.0", features = ["plugin"] }
-semver = { version = "1.0.26", features = ["serde"] }
-serde = "1"
-strum = { version = "0.27", features = ["derive"] }
-thiserror = "2"
-typetag = "0.2"
+  nu-plugin  ="0.107.0"
+  nu-protocol={version="0.107.0", features=["plugin"]}
+  semver     ={version="1.0.26", features=["serde"]}
+  serde      ="1"
+  strum      ={version="0.27", features=["derive"]}
+  thiserror  ="2"
+  typetag    ="0.2"
 
 [dev-dependencies]
-nu-plugin-test-support = "0.106.0"
+  nu-plugin-test-support="0.107.0"
 
-# [patch.crates-io]
-# nu-plugin = { git = "https://github.com/nushell/nushell/" }
-# nu-protocol = { git = "https://github.com/nushell/nushell/" }
-# nu-plugin-test-support = { git = "https://github.com/nushell/nushell/" }
+  # [patch.crates-io]
+  # nu-plugin = { git = "https://github.com/nushell/nushell/" }
+  # nu-protocol = { git = "https://github.com/nushell/nushell/" }
+  # nu-plugin-test-support = { git = "https://github.com/nushell/nushell/" }
