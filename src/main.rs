@@ -24,10 +24,11 @@ fn main() {
 mod tests {
     use nu_protocol::ShellError;
 
-    use crate::commands;
     use crate::SemverPlugin;
+    use crate::commands;
 
     #[test]
+    #[allow(clippy::result_large_err)]
     pub fn test_examples() -> Result<(), ShellError> {
         use nu_plugin_test_support::PluginTest;
         for cmd in commands::commands() {

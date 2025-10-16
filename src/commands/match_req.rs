@@ -1,7 +1,7 @@
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
 use nu_protocol::{Example, LabeledError, Signature, SyntaxShape, Type, Value};
 
-use crate::{custom_value::SemverCustomValue, version::VersionReqValue, SemverPlugin};
+use crate::{SemverPlugin, custom_value::SemverCustomValue, version::VersionReqValue};
 
 use super::custom_type;
 
@@ -32,7 +32,7 @@ impl SimplePluginCommand for SemverMatchReq {
             ])
     }
 
-    fn examples(&self) -> Vec<Example> {
+    fn examples(&'_ self) -> Vec<Example<'_>> {
         vec![
             Example {
                 example: r#" "3.2.1" | semver match-req "3" "#,

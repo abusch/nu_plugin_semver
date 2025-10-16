@@ -1,10 +1,10 @@
 use std::{any::Any, cmp::Ordering, ops::Deref};
 
-use nu_protocol::{CustomValue, ShellError, Span, Value};
+use nu_protocol::{CustomValue, ShellError, Span, Value, casing::Casing};
 use semver::{BuildMetadata, Prerelease};
 use serde::{Deserialize, Serialize};
 
-use crate::version::{Level, VersionError, ALPHA, BETA, RC};
+use crate::version::{ALPHA, BETA, Level, RC, VersionError};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct SemverCustomValue(pub semver::Version);
@@ -163,15 +163,22 @@ impl CustomValue for SemverCustomValue {
         self_span: Span,
         column_name: String,
         path_span: Span,
+        _optional: bool,
+        casing: Casing,
     ) -> Result<Value, ShellError> {
-        match column_name.as_str() {
+        let col = match casing {
+            Casing::Sensitive => column_name,
+            Casing::Insensitive => column_name.to_lowercase(),
+        };
+
+        match col.as_str() {
             "major" => Ok(Value::int(self.0.major as i64, path_span)),
             "minor" => Ok(Value::int(self.0.minor as i64, path_span)),
             "patch" => Ok(Value::int(self.0.patch as i64, path_span)),
             "pre" => Ok(Value::string(self.0.pre.to_string(), path_span)),
             "build" => Ok(Value::string(self.0.build.to_string(), path_span)),
             _ => Err(ShellError::CantFindColumn {
-                col_name: column_name,
+                col_name: col,
                 span: Some(path_span),
                 src_span: self_span,
             }),

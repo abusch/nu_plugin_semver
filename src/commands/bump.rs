@@ -1,7 +1,7 @@
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
 use nu_protocol::{Example, LabeledError, Signature, Spanned, SyntaxShape, Type, Value};
 
-use crate::{custom_value::SemverCustomValue, version::Level, SemverPlugin};
+use crate::{SemverPlugin, custom_value::SemverCustomValue, version::Level};
 
 use super::custom_type;
 
@@ -42,7 +42,7 @@ impl SimplePluginCommand for SemverBump {
         "Bump the version to the next level"
     }
 
-    fn examples(&self) -> Vec<Example> {
+    fn examples(&'_ self) -> Vec<Example<'_>> {
         vec![
             Example {
                 example: r#""1.2.3-alpha.1+build" | semver bump major"#,

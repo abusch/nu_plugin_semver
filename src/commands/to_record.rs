@@ -1,7 +1,7 @@
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
-use nu_protocol::{record, Example, LabeledError, Record, Signature, Type, Value};
+use nu_protocol::{Example, IntoValue, LabeledError, Record, Signature, Type, Value, record};
 
-use crate::{custom_value::SemverCustomValue, SemverPlugin};
+use crate::{SemverPlugin, custom_value::SemverCustomValue};
 
 use super::{custom_type, record_type};
 
@@ -25,7 +25,7 @@ impl SimplePluginCommand for SemverToRecord {
         ])
     }
 
-    fn examples(&self) -> Vec<Example> {
+    fn examples(&'_ self) -> Vec<Example<'_>> {
         vec![
             Example {
                 example: r#""1.2.3-alpha.1+build2" | semver to-record"#,
@@ -69,9 +69,6 @@ impl SimplePluginCommand for SemverToRecord {
         record.push("pre", Value::string(version.pre.as_str(), span));
         record.push("build", Value::string(version.build.as_str(), span));
 
-        Ok(Value::Record {
-            val: record.into(),
-            internal_span: span,
-        })
+        Ok(record.into_value(span))
     }
 }

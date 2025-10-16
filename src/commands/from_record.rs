@@ -25,7 +25,7 @@ impl SimplePluginCommand for SemverFromRecord {
         Signature::build(self.name()).input_output_type(record_type(), Type::String)
     }
 
-    fn examples(&self) -> Vec<Example> {
+    fn examples(&'_ self) -> Vec<Example<'_>> {
         vec![Example {
             example: r#"{ major: 2, minor: 3, patch: 4, pre: "", build: "" } | semver from-record"#,
             description: "Parse a semver version into a record",
