@@ -1,7 +1,7 @@
 use nu_plugin::SimplePluginCommand;
 use nu_protocol::{LabeledError, Signature, Type, Value};
 
-use crate::{custom_value::SemverCustomValue, SemverPlugin};
+use crate::{SemverPlugin, custom_value::SemverCustomValue};
 
 use super::custom_type;
 
@@ -41,11 +41,8 @@ impl SimplePluginCommand for IntoSemver {
                 let v: SemverCustomValue = input.try_into()?;
                 Ok(v.into_value(*internal_span))
             }
-            Value::List {
-                vals,
-                internal_span,
-            } => {
-                let span = *internal_span;
+            list_val @ Value::List { vals, .. } => {
+                let span = list_val.span();
                 let semvers = vals
                     .iter()
                     .map(|v| SemverCustomValue::try_from(v).map(|v| v.into_value(span)))

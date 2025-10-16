@@ -1,6 +1,6 @@
 use std::ops::Deref;
 
-use crate::{version::VersionValue, SemverPlugin};
+use crate::{SemverPlugin, version::VersionValue};
 use nu_plugin::{EvaluatedCall, SimplePluginCommand};
 use nu_protocol::{Example, LabeledError, Signature, Type, Value};
 pub struct SemverSort;
@@ -33,7 +33,7 @@ impl SimplePluginCommand for SemverSort {
             )
     }
 
-    fn examples(&self) -> Vec<Example> {
+    fn examples(&'_ self) -> Vec<Example<'_>> {
         vec![Example {
             example: r#"["3.2.1", "2.3.4", "3.2.2", "2.3.4-beta.1", "2.3.4-alpha.1", "2.3.4-alpha.2"] | semver sort"#,
             description: "sort versions by SemVer semantics.",
