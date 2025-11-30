@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.9](https://github.com/abusch/nu_plugin_semver/compare/v0.11.8...v0.11.9) - 2025-11-30
+
+### Other
+
+- upgrade to nu 0.109
+- *(deps)* bump actions/checkout from 5 to 6
+
 ## [0.11.8](https://github.com/abusch/nu_plugin_semver/compare/v0.11.7...v0.11.8) - 2025-10-16
 
 ### Other
