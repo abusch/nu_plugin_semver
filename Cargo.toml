@@ -7,7 +7,7 @@ license = "MIT"
 name = "nu_plugin_semver"
 readme = "README.md"
 repository = "https://github.com/abusch/nu_plugin_semver"
-version = "0.11.8"
+version = "0.11.9"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
