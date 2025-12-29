@@ -31,7 +31,7 @@ impl SemverCustomValue {
                         num.unwrap_or(0) + 1
                     } else {
                         // Unknown level or trying to downgrade from beta or rc
-                        return Err(VersionError::InvalidLevelForPrerelase(
+                        return Err(VersionError::InvalidLevelForPrerelease(
                             level,
                             self.0.pre.to_string(),
                         ));
@@ -54,7 +54,7 @@ impl SemverCustomValue {
                         num.unwrap_or(0) + 1
                     } else {
                         // unknown level or trying to downgrade from rc
-                        return Err(VersionError::InvalidLevelForPrerelase(
+                        return Err(VersionError::InvalidLevelForPrerelease(
                             level,
                             self.0.pre.to_string(),
                         ));
@@ -78,7 +78,7 @@ impl SemverCustomValue {
                         num.unwrap_or(0) + 1
                     } else {
                         // Unknown level
-                        return Err(VersionError::InvalidLevelForPrerelase(
+                        return Err(VersionError::InvalidLevelForPrerelease(
                             level,
                             self.0.pre.to_string(),
                         ));
