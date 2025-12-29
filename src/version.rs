@@ -9,7 +9,7 @@ pub const RC: &str = "rc";
 #[derive(Debug, thiserror::Error)]
 pub enum VersionError {
     #[error("Invalid level {0} for pre-release {1}")]
-    InvalidLevelForPrerelase(Level, String),
+    InvalidLevelForPrerelease(Level, String),
     #[error("Only numerical suffixes are supported in pre-release field: {0}")]
     InvalidNumericSuffixInPrerelease(#[from] ParseIntError),
     #[error(transparent)]
