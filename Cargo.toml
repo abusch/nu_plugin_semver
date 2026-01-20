@@ -12,8 +12,8 @@ version = "0.11.9"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-nu-plugin = "0.109.0"
-nu-protocol = { version = "0.109.0", features = ["plugin"] }
+nu-plugin = "0.110.0"
+nu-protocol = { version = "0.110.0", features = ["plugin"] }
 semver = { version = "1.0.27", features = ["serde"] }
 serde = "1"
 strum = { version = "0.27", features = ["derive"] }
@@ -21,7 +21,7 @@ thiserror = "2"
 typetag = "0.2"
 
 [dev-dependencies]
-nu-plugin-test-support = "0.109.0"
+nu-plugin-test-support = "0.110.0"
 
 # [patch.crates-io]
 # nu-plugin = { git = "https://github.com/nushell/nushell/" }
