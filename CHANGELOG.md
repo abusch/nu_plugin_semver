@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.11](https://github.com/abusch/nu_plugin_semver/compare/v0.11.10...v0.11.11) - 2026-01-21
+
+### Other
+
+- Merge pull request #23 from mkatychev/feat/add-dist
+
 ## [0.11.10](https://github.com/abusch/nu_plugin_semver/compare/v0.11.9...v0.11.10) - 2026-01-20
 
 ### Other
