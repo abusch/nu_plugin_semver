@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.12](https://github.com/abusch/nu_plugin_semver/compare/v0.11.11...v0.11.12) - 2026-01-27
+
+### Fixed
+
+- *(ci)* Undo dependabot upgrades
+
 ## [0.11.11](https://github.com/abusch/nu_plugin_semver/compare/v0.11.10...v0.11.11) - 2026-01-27
 
 ### Other
