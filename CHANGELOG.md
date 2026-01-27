@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.14](https://github.com/abusch/nu_plugin_semver/compare/v0.11.13...v0.11.14) - 2026-01-27
+
+### Fixed
+
+- *(ci)* Fix release-plz config
+- *(ci)* make dist not create the GH release
+
 ## [0.11.13](https://github.com/abusch/nu_plugin_semver/compare/v0.11.12...v0.11.13) - 2026-01-27
 
 ### Fixed
