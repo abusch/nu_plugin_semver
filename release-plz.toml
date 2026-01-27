@@ -1,2 +1,2 @@
 [workspace]
-github_release_draft = true
+git_release_draft = true
