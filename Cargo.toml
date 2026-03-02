@@ -13,7 +13,7 @@ version = "0.11.14"
 
 [dependencies]
 nu-plugin = "0.110.0"
-nu-protocol = { version = "0.110.0", features = ["plugin"] }
+nu-protocol = { version = "0.111.0", features = ["plugin"] }
 semver = { version = "1.0.27", features = ["serde"] }
 serde = "1"
 strum = { version = "0.28", features = ["derive"] }
