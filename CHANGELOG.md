@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.15](https://github.com/abusch/nu_plugin_semver/compare/v0.11.14...v0.11.15) - 2026-03-03
+
+### Other
+
+- bump dist
+- Upgrade to nushell 0.111
+- *(deps)* bump strum from 0.27.2 to 0.28.0
+- *(ci)* Upgrade cargo-dist
+
 ## [0.11.14](https://github.com/abusch/nu_plugin_semver/compare/v0.11.13...v0.11.14) - 2026-01-27
 
 ### Fixed
