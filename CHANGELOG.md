@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.16](https://github.com/abusch/nu_plugin_semver/compare/v0.11.15...v0.11.16) - 2026-05-03
+
+### Other
+
+- upgrade nushell to 0.112.2 + other deps
+
 ## [0.11.15](https://github.com/abusch/nu_plugin_semver/compare/v0.11.14...v0.11.15) - 2026-03-03
 
 ### Other
