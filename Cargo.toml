@@ -21,7 +21,7 @@ thiserror = "2"
 typetag = "0.2"
 
 [dev-dependencies]
-nu-plugin-test-support = "0.112.2"
+nu-plugin-test-support = "0.113.0"
 
 # The profile that 'dist' will build with
 [profile.dist]
