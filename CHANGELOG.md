@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.17](https://github.com/abusch/nu_plugin_semver/compare/v0.11.16...v0.11.17) - 2026-05-26
+
+### Other
+
+- upgrade cargo-dist ([#54](https://github.com/abusch/nu_plugin_semver/pull/54))
+- *(deps)* bump the nushell group with 3 updates
+- Add dependency group for nushell in dependabot config
+
 ## [0.11.16](https://github.com/abusch/nu_plugin_semver/compare/v0.11.15...v0.11.16) - 2026-05-03
 
 ### Other
