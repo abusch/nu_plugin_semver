@@ -2,6 +2,9 @@
 
 This is a plugin for the [`nu`](https://nushell.sh) shell to manipulate strings representing versions that conform to the [SemVer](https://semver.org) specification.
 
+> [!IMPORTANT]
+> Starting with version 0.114.0, `nushell` now [natively supports `semver` versions](https://www.nushell.sh/blog/2026-07-04-nushell_v0_114_0.html#semver-is-a-real-value-now), rendering this plugin unnecessary.
+
 ## Installation
 
 You can compile from source by checking out this repository and running `cargo install --path .`, or installing the latest version with `cargo install nu_plugin_semver`.
