@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.18](https://github.com/abusch/nu_plugin_semver/compare/v0.11.17...v0.11.18) - 2026-07-13
+
+### Other
+
+- Add note about this plugin being EOL
+
 ## [0.11.17](https://github.com/abusch/nu_plugin_semver/compare/v0.11.16...v0.11.17) - 2026-05-26
 
 ### Other
